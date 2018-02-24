@@ -41,7 +41,7 @@ It is exactly the same as HttpService.GetAsync and HttpService.PostAsync _except
 
 Example:
 
-    local ProxyHandler = require(script.Parent.ModuleScript)
+    local ProxyHandler = require(script.Parent.ProxyHandler)
     local Proxy = ProxyHandler:New('https://rdprxy-test.herokuapp.com', '6ddea1d2a6606f01538e8c92bbf8ba1e9c6aaa46e0a24cb0ce32ef0444130d07')
 
     print(Proxy:Get('api.roblox.com', '/users/2470023'))
