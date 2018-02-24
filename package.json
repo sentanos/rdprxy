@@ -1,6 +1,6 @@
 {
-  "name": "RDPRXY",
-  "version": "0.0.1",
+  "name": "rdprxy",
+  "version": "1.0.0",
   "description": "A proxy created for serving HTTP requests from Roblox to Discord or Roblox.",
   "main": "server.js",
   "dependencies": {
@@ -16,5 +16,5 @@
     "start": "node server.js"
   },
   "author": "Froast <froastj@gmail.com>",
-  "license": "ISC"
+  "license": "MIT"
 }
