@@ -1,7 +1,7 @@
-**!!! DO NOT ABUSE DISCORD WEBHOOKS !!!**
-**!!! DO NOT SEND EVENT LOGS TO DISCORD !!!**
-**!!! DO NOT ABUSE DISCORD WEBHOOKS !!!**
-**!!! DO NOT SEND EVENT LOGS TO DISCORD !!!**
+## !!! DO NOT ABUSE DISCORD WEBHOOKS !!!
+## !!! DO NOT SEND EVENT LOGS TO DISCORD !!!
+
+## rdprxy
 
 This is an open source proxy for Roblox HttpService requests. It works with any domain but was made specifically to proxy Roblox api requests and discord webhook requests from in-game. This will proxy headers, cookies, paths, or whatever else you throw of it. It is configured so that only you can use it and other people can't abuse your proxy for themselves.
 
@@ -48,9 +48,7 @@ Feel free to look in the module and just use HttpService (the module just attach
 
 **I'm serious**
 
-**!!! DO NOT ABUSE DISCORD WEBHOOKS !!!**
-**!!! DO NOT SEND EVENT LOGS TO DISCORD !!!**
-**!!! DO NOT ABUSE DISCORD WEBHOOKS !!!**
-**!!! DO NOT SEND EVENT LOGS TO DISCORD !!!**
+## !!! DO NOT ABUSE DISCORD WEBHOOKS !!!
+## !!! DO NOT SEND EVENT LOGS TO DISCORD !!!
 
 This is why Roblox was blocked from discord in the first place. If you use this responsibly Discord will neither know you are requesting from Roblox or care that you are using it.
