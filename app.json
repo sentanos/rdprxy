@@ -1,0 +1,18 @@
+{
+  "name": "RDPRXY",
+  "description": "A proxy created for serving HTTP requests from Roblox to Discord or Roblox.",
+  "repository": "https://github.com/sentanos/rdprxy",
+  "keywords": ["node", "roblox", "proxy", "discord"],
+  "env": {
+    "ACCESS_KEY": {
+      "description": "This is basically the password for your API to prevent other people from mailiciously accessing it. Below is a randomly generated key, feel free to change it to something else random but _remember to copy it before continuing_.",
+      "required": true,
+      "generator": "secret"
+    },
+    "ALLOWED_HOSTS": {
+      "description": "A comma separated list of additional hosts (no spaces) to allow with the desired protocol in the format protocol:host. Below are the default hosts, don't touch them unless you know what you're doing.",
+      "required": true,
+      "value": "https:discordapp.com,https:roblox.com,https:www.roblox.com,https:api.roblox.com,http:wiki.roblox.com,https:assetgame.roblox.com,https:avatar.roblox.com,https:groups.roblox.com,https:data.roblox.com,https:inventory.roblox.com,https:search.roblox.com,https:auth.roblox.com,https:avatar.roblox.com,https:billing.roblox.com,https:chat.roblox.com,https:develop.roblox.com,https:notifications.roblox.com,https:games.roblox.com"
+    }
+  }
+}
