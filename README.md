@@ -16,8 +16,10 @@ This is the only project I've made where I am not asking you have any experience
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 - Create an account if you need to. Once you're done, come back and click the button again. Login if you need to.
+- Type in whatever name you want.
 - Click "Deploy app".
-- Go to `Settings > Reveal Config Vars` and copy the ACCESS_KEY.
+- Click view and copy the URL.
+- Click manage app and go to `Settings > Reveal Config Vars` and copy the ACCESS_KEY.
 
 That's it.
 
@@ -33,7 +35,7 @@ Now you can get the handler script from [here](https://github.com/sentanos/rdprx
     Proxy:Get(target, path, nocache, headers)
     Proxy:Post(target, path, data, contentType, compress, headers)
 
-Domain is the domain of your heroku application including the http:// or https://.
+Domain is the domain of your heroku application including the http:// or https://. _Do not_ include a slash at the end of the domain.
 
 It is exactly the same as HttpService.GetAsync and HttpService.PostAsync _except_ the first argument is the hostname (eg. `api.roblox.com` or `discordapp.com`) and the second argument is the path (eg. `/users/2470023`)
 
