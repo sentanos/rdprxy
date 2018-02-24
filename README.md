@@ -15,7 +15,7 @@ This is the only project I've made where I am not asking you have any experience
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-- Create an account if you need to.
+- Create an account if you need to. Once you're done, come back and click the button again.
 - Click "Deploy app".
 - Go to `Settings > Reveal Config Vars` and copy the ACCESS_KEY.
 
