@@ -62,7 +62,7 @@ const onProxyError = (err, req, res) => {
 };
 
 const onProxyReq = (proxyReq, req, res, options) => {
-  proxyReq.setHeader('User-Agent', 'Mozilla');
+  proxyReq.setHeader('User-Agent', 'RobloxStudio/WinInet');
   proxyReq.removeHeader('roblox-id');
   proxyReq.removeHeader('proxy-access-key');
   proxyReq.removeHeader('proxy-target');
