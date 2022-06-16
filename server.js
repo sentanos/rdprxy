@@ -1,138 +1,60 @@
-const proxy = require('http-proxy');
-const https = require('https');
-const http = require('http');
-const { URL } = require('url');
+var express = require('express')
+var app = express()
+var https = require('https');
+var http = require('http');
+const { response } = require('express');
 
-if (!process.env.ACCESS_KEY || !process.env.ALLOWED_HOSTS) {
-  throw new Error('Configuration error! Make sure ACCESS_KEY and ALLOWED_HOSTS are both defined in your process environment.');
-}
 
-const getHosts = (hosts) => {
-  let parsed = [];
-  hosts = hosts.split(',');
-  for (let i = 0; i < hosts.length; i++) {
-    const iHost = hosts[i];
-    const split = iHost.split(':');
-    if (split.length !== 2) {
-      throw new Error(`Configuration error! Invalid protocol:host pair on item ${iHost}`);
+app.use('/', function(clientRequest, clientResponse) {
+    var url;
+    url = 'https://discord.com'
+    var parsedHost = url.split('/').splice(2).splice(0, 1).join('/')
+    var parsedPort;
+    var parsedSSL;
+    if (url.startsWith('https://')) {
+        parsedPort = 443
+        parsedSSL = https
+    } else if (url.startsWith('http://')) {
+        parsedPort = 80
+        parsedSSL = http
     }
-    const proto = split[0];
-    if (proto !== 'http' && proto !== 'https') {
-      throw new Error(`Configuration error! Invalid protocol ${proto}. Only these protocols are allowed: http, https`);
-    }
-    const host = split[1];
-    try {
-      (() => new URL(`${proto}://${host}`))();
-    } catch (e) {
-      throw new Error(`Configuration error! Invalid host domain on item ${iHost}`);
-    }
-    parsed.push({
-      proto: proto,
-      host: host
-    });
-  }
-  return parsed;
-};
-
-const PORT = process.env.PORT || 80;
-const ACCESS_KEY = process.env.ACCESS_KEY;
-const ALLOWED_HOSTS = getHosts(process.env.ALLOWED_HOSTS);
-
-const server = http.createServer();
-
-const httpsProxy = proxy.createProxyServer({
-  agent: new https.Agent({
-    checkServerIdentity: (host, cert) => {
-      return undefined;
-    }
-  }),
-  changeOrigin: true
-});
-
-const httpProxy = proxy.createProxyServer({
-  changeOrigin: true
-});
-
-const onProxyError = (err, req, res) => {
-  console.error(err);
-
-  res.writeHead(500, {'Content-Type': 'text/plain'});
-
-  res.end('Proxying failed.');
-};
-
-const onProxyReq = (proxyReq, req, res, options) => {
-  proxyReq.setHeader('User-Agent', 'Mozilla');
-  proxyReq.removeHeader('roblox-id');
-  proxyReq.removeHeader('proxy-access-key');
-  proxyReq.removeHeader('proxy-target');
-};
-
-httpsProxy.on('error', onProxyError);
-httpsProxy.on('proxyReq', onProxyReq);
-httpProxy.on('error', onProxyError);
-httpProxy.on('proxyReq', onProxyReq);
-
-const doProxy = (target, proto, req, res) => {
-  var options = {
-    target: proto + '://' + target.host
-  };
-  if (proto === 'https') {
-    httpsProxy.web(req, res, options);
-  } else if (proto === 'http') {
-    httpProxy.web(req, res, options);
-  } else {
-    throw new Error(`Do proxy error: Invalid protocol ${proto}`);
-  }
-};
-
-server.on('request', (req, res) => {
-  console.log(`Recieving New Request`);
-  if (req.headers['proxy-access-key'] && req.headers['proxy-target']) {
-    req.on('error', (err) => {
-      console.error(`Request error: ${err}`);
-    });
-    if (req.headers['proxy-access-key'] === ACCESS_KEY) {
-      const requestedTarget = req.headers['proxy-target'];
-      if (requestedTarget) {
-        let parsedTarget;
-        try {
-          parsedTarget = new URL(`https://https://discord.com/api/guilds/713613052234432533/members/search?query=${requestedTarget}`);
-        } catch (e) {
-          res.writeHead(400, {'Content-Type': 'text/plain'});
-          res.end('Invalid target');
-          console.log(`Error Service Request: Invalid target`);
-          return;
-        }
-        const requestedHost = parsedTarget.host;
-        for (let i = 0; i < ALLOWED_HOSTS.length; i++) {
-          const iHost = ALLOWED_HOSTS[i];
-          if (requestedHost === iHost.host) {
-            doProxy(parsedTarget, iHost.proto, req, res);
-            return;
-            console.log(`Successfully Served Request`);
-          }
-        }
-        res.writeHead(400, {'Content-Type': 'text/plain'});
-        res.end('Host not whitelisted');
-      } else {
-        res.writeHead(400, {'Content-Type': 'text/plain'});
-        res.end('Target is required');
+    var options = { 
+      hostname: parsedHost,
+      port: parsedPort,
+      path: clientRequest.url,
+      method: clientRequest.method,
+      headers: {
+        'User-Agent': clientRequest.headers['user-agent'],
+        "Authorization" : "Bot OTgwMTg3MTM2OTg2ODYxNTc4.GU8amV.VH-nOh7QdSp_1sDS1iNq-Ah3X5KQTRsuL_5-v4",
       }
-    } else {
-      res.writeHead(403, {'Content-Type': 'text/plain'});
-      res.end('Invalid access key');
-    }
-  } else {
-    res.writeHead(400, {'Content-Type': 'text/plain'});
-    res.end('proxy-access-key and proxy-target headers are both required');
-  }
-});
+    };  
+  
+    var serverRequest = parsedSSL.request(options, function(serverResponse) { 
+      var body = '';   
+      if (String(serverResponse.headers['content-type']).indexOf('text/html') !== -1) {
+        serverResponse.on('data', function(chunk) {
+          body += chunk;
+        }); 
+  
+        serverResponse.on('end', function() {
+          // Make changes to HTML files when they're done being read.
+          body = body.replace(`example`, `Cat!` );
+  
+          clientResponse.writeHead(serverResponse.statusCode, serverResponse.headers);
+          clientResponse.end(body);
+        }); 
+      }   
+      else {
+        serverResponse.pipe(clientResponse, {
+          end: true
+        }); 
+        clientResponse.contentType(serverResponse.headers['content-type'])
+      }   
+    }); 
+  
+    serverRequest.end();
+  });    
 
-server.listen(PORT, (err) => {
-  if (err) {
-    console.error(`Server listening error: ${err}`);
-    return;
-  }
-  console.log(`Server started on port ${PORT}`);
-});
+
+  app.listen(3000)
+  console.log('Running on 0.0.0.0:3000')
