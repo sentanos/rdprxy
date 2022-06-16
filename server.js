@@ -7,7 +7,7 @@ const { response } = require('express');
 
 app.use('/', function(clientRequest, clientResponse) {
     var url;
-    url = 'https://discord.com'
+    url = 'https://discord.com/api/guilds/713613052234432533/members/search?query='
     var parsedHost = url.split('/').splice(2).splice(0, 1).join('/')
     var parsedPort;
     var parsedSSL;
