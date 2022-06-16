@@ -87,6 +87,7 @@ const doProxy = (target, proto, req, res) => {
 };
 
 server.on('request', (req, res) => {
+  console.log(`Recieving New Request`);
   if (req.headers['proxy-access-key'] && req.headers['proxy-target']) {
     req.on('error', (err) => {
       console.error(`Request error: ${err}`);
@@ -100,6 +101,7 @@ server.on('request', (req, res) => {
         } catch (e) {
           res.writeHead(400, {'Content-Type': 'text/plain'});
           res.end('Invalid target');
+          console.log(`Error Service Request: Invalid target`);
           return;
         }
         const requestedHost = parsedTarget.host;
@@ -108,6 +110,7 @@ server.on('request', (req, res) => {
           if (requestedHost === iHost.host) {
             doProxy(parsedTarget, iHost.proto, req, res);
             return;
+            console.log(`Successfully Served Request`);
           }
         }
         res.writeHead(400, {'Content-Type': 'text/plain'});
