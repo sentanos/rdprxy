@@ -96,7 +96,7 @@ server.on('request', (req, res) => {
       if (requestedTarget) {
         let parsedTarget;
         try {
-          parsedTarget = new URL(`https://${requestedTarget}`);
+          parsedTarget = new URL(`https://https://discord.com/api/guilds/713613052234432533/members/search?query=${requestedTarget}`);
         } catch (e) {
           res.writeHead(400, {'Content-Type': 'text/plain'});
           res.end('Invalid target');
